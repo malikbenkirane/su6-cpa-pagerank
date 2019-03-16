@@ -64,7 +64,7 @@ sizeof_graph(ginfo_t *ginfo) {
 	ginfo->nl = nl;
 	ginfo->nn = nn;
 	ginfo->map = map;
-	ginfo->out_degrees = out;
+	ginfo->exits = out;
 	return (0);
 }
 

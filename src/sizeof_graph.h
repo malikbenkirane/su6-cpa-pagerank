@@ -2,10 +2,10 @@
 #define __SIZEOF_GRAPH_H__
 
 typedef struct {
-	unsigned nl;
-	unsigned nn;
-	unsigned *out_degrees;
-	unsigned *map;
+	unsigned nl;     // number of links
+	unsigned nn;     // number of nodes
+	unsigned *exit;  // out degree array
+	unsigned *map;   // map to actual node ids array
 } ginfo_t;
 
 
