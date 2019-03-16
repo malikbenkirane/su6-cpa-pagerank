@@ -1,3 +1,3 @@
 CFLAGS = -Wall -Werror -I../src -g
 default:
-	cc $(CFLAGS) ../src/sizeof_graph.c 
+	cc $(CFLAGS) $(CPPFLAGS) ../src/sizeof_graph.c 

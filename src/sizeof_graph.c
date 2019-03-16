@@ -31,7 +31,6 @@ sizeof_graph(ginfo_t *ginfo) {
 	if ((fd = fopen(FILENAME, "r")) == NULL)
 		return ERR_FILE_OPEN;
 	while (fscanf(fd, "%u %u", &u, &v) == 2) {
-		printf("read %u - %u", u, v);
 		if (map_index > map_alloc - 1) {
 			map_alloc += MIN_ALLOC;
 			douts = realloc(douts, sizeof(*douts)*map_alloc);
@@ -49,6 +48,7 @@ sizeof_graph(ginfo_t *ginfo) {
 	return (0);
 }
 
+#ifdef TEST_SIZEOF
 int
 main(void)
 {
@@ -61,3 +61,4 @@ main(void)
 	printf("nn:%u\n", ginfo.nn);
 	return (0);
 }
+#endif
