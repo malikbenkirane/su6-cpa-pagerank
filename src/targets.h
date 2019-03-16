@@ -2,7 +2,7 @@
 #define __TARGET_H__
 
 #ifdef LOCAL
-#define FILENAME "../data/wiki-20071018-dirlinks_clean.txt"
+#define FILENAME "alr21--dirLinks--enwiki-20071018.txt"
 #endif
 
 #ifdef PPTI

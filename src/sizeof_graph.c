@@ -13,7 +13,7 @@ sizeof_graph(ginfo_t *ginfo) {
 	unsigned u, v;
 	unsigned nl, nn;
 	unsigned *map, *revmap;
-	unsigned mi, mi_max; // map index, map max index
+	unsigned mi_max; // map index, map max index
 	unsigned ri, ri_max; // max node index, revmap max index
 	unsigned *out;
 	FILE *fd;
@@ -31,13 +31,12 @@ sizeof_graph(ginfo_t *ginfo) {
 	mi_max = MIN_ALLOC - 1;
 	ri_max = MIN_ALLOC - 1;
 	ri = 0;
-	mi = 0;
 	nl = 0;
 	nn = 0;
 	if ((fd = fopen(FILENAME, "r")) == NULL)
 		return ERR_FILE_OPEN;
 	while (fscanf(fd, "%u %u", &u, &v) == 2) {
-		if (mi > mi_max) {
+		if (nn > mi_max) {
 			mi_max += MIN_ALLOC;
 			out = realloc(out, sizeof(*out) * (mi_max+1));
 			map = realloc(map, sizeof(*map) * (mi_max+1));
@@ -48,23 +47,26 @@ sizeof_graph(ginfo_t *ginfo) {
 			ri_max = ri;
 			revmap = realloc(revmap, sizeof(*revmap) * (ri_max+1));
 		}
-		// count nodes
-		if (revmap[u] == 0) nn++;
-		if (revmap[v] == 0) nn++;
 		// register u
-		map[mi] = u;
-		out[mi]++;
-		revmap[u] = mi++;
-		// register v (out degree 0)
-		map[mi] = v;
-		revmap[v] = mi++;
+		if (revmap[u] == 0) {
+			map[nn] = u;
+			revmap[u] = nn;
+			nn++;
+		}
+		if (revmap[v] == 0) {
+			map[nn] = u;
+			revmap[v] = nn;
+			nn++;
+		}
+		out[revmap[u]]++;
 		// count link
 		nl++;
 	}
 	ginfo->nl = nl;
 	ginfo->nn = nn;
 	ginfo->map = map;
-	ginfo->exits = out;
+	ginfo->exit = out;
+	free(revmap);
 	return (0);
 }
 
@@ -79,6 +81,7 @@ main(void)
 		return err;
 	printf("nl:%u\n", ginfo.nl);
 	printf("nn:%u\n", ginfo.nn);
+	while (1);
 	return (0);
 }
 #endif
